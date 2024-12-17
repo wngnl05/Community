@@ -36,7 +36,7 @@ app.use("/signup", require("./public/signup/signupRouter.js"));
 app.get("/logout", (req, res) => {
   req.session.destroy((err) => {});
   Object.keys(req.cookies).forEach(cookie => res.clearCookie(cookie));
-  res.redirect("/product")
+  res.redirect("/board")
 });
 
 
