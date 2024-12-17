@@ -47,17 +47,17 @@ router.post('/auth', async (req, res) => {
         
         // 가입 되어있는지 확인
         const userCheck = s3Response.filter( e => e.userName == userName ) || undefined;
-        if(userCheck.length == 0){ return res.json({ status: 400, message: "가입되어 있지 않은 계정입니다." }) }
-        if(userPassword != userCheck[0].userPassword){ return res.json({ status: 400, message: "비밀번호가 틀렸습니다" }) }
+        if(userCheck.length == 0){ return res.status(400).json({ status: 400, message: "가입되어 있지 않은 계정입니다." }) }
+        if(userPassword != userCheck[0].userPassword){ return res.status(400).json({ status: 400, message: "비밀번호가 틀렸습니다" }) }
 
         res.cookie("userName", userName, { maxAge: 1000 * 60 * 60 * 24 });
         req.session.userName = userName;
         req.session.save(() => {});
-        res.json({ status: 200 })
+        res.status(200).send("login successful")
     }
     catch(error){
         console.log(error)
-        res.json({ status: 400, message: "오류가 발생했습니다." })
+        res.status(400).json({message: "error"})
     }
 })
 

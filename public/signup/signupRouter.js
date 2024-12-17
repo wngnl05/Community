@@ -47,17 +47,17 @@ router.post('/auth', async (req, res) => {
         
         // 가입 되어있는지 확인
         const userCheck = s3Response.filter( e => e.userName == userName ) || undefined;
-        if(userCheck.length != 0){ return res.json({ status: 400, message: "가입되어 있는 계정입니다." }) }
+        if(userCheck.length != 0){ return res.status(400).json({message: "사용중인 닉네임 입니다."}) }
     
         // 이메일 비밀번호 추가
         s3Response.push({userName, userPassword})
         await s3.send(new PutObjectCommand({ Bucket: s3Bucket, Key: `${s3Folder}/user.json`, Body: JSON.stringify( s3Response ), ContentType: 'application/json' }));
     
-        res.json({ status: 200 })
+        res.status(200).send("signup successful")
     }
     catch(error){
         console.log(error)
-        res.json({ status: 400, message: "오류가 발생했습니다." })
+        res.status(400).json({message: "error"})
     }
 })
 

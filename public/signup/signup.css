@@ -1,0 +1,55 @@
+:root {
+    --black: #252627;
+    --lightBlack: #5A5C5D;
+    --white: #FFFFFF;
+    --gray: #E1E1E1;
+    --lightGray: #F8F9FA;
+
+    --blue: #4285F4;
+    --darkBlue: #3B4890;
+    --lightBlue: #93bdff;
+}
+
+
+
+body{
+    margin: 0;
+    padding: 0;
+}
+
+header{
+    background-color: var(--darkBlue);
+    padding: 20px 30%;
+
+    display: flex;
+    gap: 20px;
+}
+
+header a{
+    color: var(--white);
+    font-size: 18px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+
+
+#loginArea{
+    margin: 20% 30%;
+
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+#loginArea input,
+#loginArea button{
+    padding: 10px 15px;
+    font-size: 20px;
+}
+
+#loginArea button{
+    background-color: var(--darkBlue);
+    color: var(--white);
+    font-weight: bold;
+}

@@ -11,9 +11,14 @@ document.querySelector("#signupButton").addEventListener("click", async function
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({ userName, userPassword })
-    }).then(response => response.json());
+    })
 
 
-    if(response.status == 400){ alert(response.message) }
-    else { window.location.href = "/login" }
+    if(!response.ok){
+        alert((await response.json().catch(() => ({ message: "An unknown error occurred." }))).message || "An error occurred.");
+        return;
+    }
+    
+    alert("회원가입이 정상적으로 완료되었습니다.")
+    window.location.href = "/login"
 })

@@ -9,9 +9,14 @@ document.querySelector("#LoginButton").addEventListener("click", async function(
         method: "POST",
         headers: {"Content-Type": "application/json"},
         body: JSON.stringify({ userName, userPassword })
-    }).then(response => response.json());
+    })
 
 
-    if(response.status == 400){ alert(response.message) }
-    else { window.location.href = "/board" }
+    if(!response.ok){
+        alert((await response.json().catch(() => ({ message: "An unknown error occurred." }))).message || "An error occurred.");
+        return;
+    }
+    
+    alert("게시판 이용 시 서로를 존중하며, 건전한 커뮤니티 문화를 만들어주세요.");
+    window.location.href = "/board"
 })
