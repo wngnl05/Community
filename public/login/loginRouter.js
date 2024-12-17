@@ -51,7 +51,7 @@ router.post('/auth', async (req, res) => {
         if(userPassword != userCheck[0].userPassword){ return res.status(400).json({ status: 400, message: "비밀번호가 틀렸습니다" }) }
 
         res.cookie("userName", userName, { maxAge: 1000 * 60 * 60 * 24 });
-        req.session.userName = userName;
+        // req.session.userName = userName; // DB 필요
         req.session.save(() => {});
         res.status(200).send("login successful")
     }

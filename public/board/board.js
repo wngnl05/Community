@@ -12,12 +12,6 @@ let baseData = null;
 // 로그인 확인 및 초기화
 (async () => {
     baseData = await base(); // 한 번만 호출하여 결과 저장
-    const { userName = null } = baseData;
-
-    if (userName) {
-        document.querySelector("#guestHeader").style.display = "none";
-        document.querySelector("#userHeader").style.display = "block";
-    }
 
     const nid = new URLSearchParams(window.location.search).get("nid");
     if (nid) await createDetailBoard(nid);
@@ -26,7 +20,10 @@ let baseData = null;
 
 // 쿠키 가져오기
 const userCookie = decodeURIComponent(document.cookie.match(/(^| )userName=([^;]+)/)?.[2]);
-
+if (userCookie && userCookie!="undefined") {
+    document.querySelector("#guestHeader").style.display = "none";
+    document.querySelector("#userHeader").style.display = "block";
+}
 
 
 // 게시물 목록 생성
@@ -51,10 +48,10 @@ async function createBoard() {
 async function createDetailBoard(nid) {
 
     const { product } = baseData;
-    const detailData = product.find(b => b.id == nid);
-    if (!detailData) return;
+    const detailProduct = product.find(b => b.id == nid);
+    if (!detailProduct) return;
 
-    const { userName, id, title, content, comments } = detailData;
+    const { userName, id, title, content, comments } = detailProduct;
     const formattedDate = `${id.slice(0, 4)}-${id.slice(4, 6)}-${id.slice(6, 8)} ${id.slice(8, 10)}:${id.slice(10, 12)}`;
     const commentHtml = comments
         .map(({ userName, comment }) => `<span class="comment">${userName}: ${comment}</span>`)
@@ -113,8 +110,7 @@ function searchBoard(event=null){
 
 // 게시물 작성 모달 열기
 async function openModal() {
-    const { userName = null } = baseData;
-    if (!userName) return alert("로그인을 해주세요.");
+    if (!userCookie || userCookie=="undefined") { return alert("로그인을 해주세요.") }
 
     document.querySelector("#boardModalContent input").value = "";
     document.querySelector("#boardModalContent textarea").value = "";
@@ -154,8 +150,7 @@ async function deleteBoard(id) {
 
 // 댓글 작성
 async function writeComment(id) {
-    const { userName = null } = baseData;
-    if (!userName) return alert("로그인을 해주세요.");
+    if (!userCookie || userCookie=="undefined") { return alert("로그인을 해주세요.") }
 
     const comment = document.querySelector("#detailComment textarea").value.trim();
     if (!comment) return alert("댓글을 작성해주세요.");

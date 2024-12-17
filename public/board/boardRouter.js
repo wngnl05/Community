@@ -39,9 +39,8 @@ function s3StreamToString(stream) {
 router.get('/base', async (req, res) => {
     try{
         // S3 데이터 반환하기
-        const userName = req.session.userName;
         const product = JSON.parse(await s3StreamToString( (await s3.send(new GetObjectCommand({ Bucket: s3Bucket, Key: `${s3Folder}/board.json` }))).Body )) || [];
-        res.status(200).json({ userName, product })
+        res.status(200).json({ product })
     }
     catch(error){
         console.log(error)
@@ -53,14 +52,15 @@ router.get('/base', async (req, res) => {
 
 // 로그인 user만 접근
 router.use(async (req, res, next) => {
-    if(req.session && req.session.userName){ next() }
+    // if(req.session && req.session.userName){ next() } // DB 필요
+    if(req.cookies && req.cookies.userName){ next() }
     else{ return res.json({ status: 400, message: "로그인을 해주세요" }) }
 })
 
 router.post('/writeBoard', async (req, res) => {
     try{
         const {title, content} = req.body;
-        const userName = req.session.userName;
+        const userName = req.cookies.userName;
 
         const id = new Date(new Date().getTime() + (9 * 60 * 60 * 1000)).toISOString().replace(/[-T:]/g, '').slice(0, 14);
 
@@ -82,7 +82,7 @@ router.post('/writeBoard', async (req, res) => {
 router.post('/writeComment', async (req, res) => {
     try{
         const {id, comment} = req.body;
-        const userName = req.session.userName;
+        const userName = req.cookies.userName;
 
         // S3 데이터 가져오기
         const s3Response = JSON.parse(await s3StreamToString( (await s3.send(new GetObjectCommand({ Bucket: s3Bucket, Key: `${s3Folder}/board.json` }))).Body )) || [];
@@ -105,7 +105,7 @@ router.post('/writeComment', async (req, res) => {
 router.post('/deleteBoard', async (req, res) => {
     try{
         const {id} = req.body;
-        const userName = req.session.userName;
+        const userName = req.cookies.userName;
         console.log(id, userName)
         const s3Response = JSON.parse(await s3StreamToString( (await s3.send(new GetObjectCommand({ Bucket: s3Bucket, Key: `${s3Folder}/board.json` }))).Body )) || [];
         const deleteElement = s3Response.filter(b => !(b.id == id && b.userName == userName));
