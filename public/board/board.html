@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Community</title>
+
+    <link rel="stylesheet" href="/asset/board.css">
+</head>
+<body>
+
+    <header>
+        <div id="headerContainer">
+            <button onclick="window.location.href='/product'"> <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path fill-rule="evenodd" clip-rule="evenodd" d="M21.4498 10.275L11.9998 3.1875L2.5498 10.275L2.9998 11.625H3.7498V20.25H20.2498V11.625H20.9998L21.4498 10.275ZM5.2498 18.75V10.125L11.9998 5.0625L18.7498 10.125V18.75H14.9999V14.3333L14.2499 13.5833H9.74988L8.99988 14.3333V18.75H5.2498ZM10.4999 18.75H13.4999V15.0833H10.4999V18.75Z" fill="#ffffff"></path> </g></svg> </button>
+            
+            <input type="text" id="searchInput" placeholder="제목 검색" onkeydown="searchBoard(event)">
+            <button onclick="searchBoard()"> <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke="#ffffff"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14.9536 14.9458L21 21M17 10C17 13.866 13.866 17 10 17C6.13401 17 3 13.866 3 10C3 6.13401 6.13401 3 10 3C13.866 3 17 6.13401 17 10Z" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg> </button>
+        </div>
+
+
+        <div style="display: flex; gap: 30px">
+            <button onclick="openModal()">글쓰기</button>
+
+            <div id="guestHeader">
+                <a href="/login">로그인</a>
+                <a href="/signup">회원가입</a>
+            </div>
+    
+            <div id="userHeader" style="display: none;">
+                <a href="/logout">로그아웃</a>
+            </div>
+        </div>
+    </header>
+
+
+    <main>
+        <div id="boardDetail" style="display: none;"></div>
+
+        <div id="boardArea">
+            <table id="boardTable">
+                <thead>
+                    <tr>
+                        <th>번호</th>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>작성일</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </main>
+    
+
+    <div id="simpleModal" style="display: none;">
+        <div id="simpleModalContent">
+            <svg id="simpleModalClose" onclick="document.querySelector('#simpleModal').style.display = 'none'" viewBox="0 0 1024 1024" xmlns="http://www.w3.org/2000/svg" fill="#FFFFFF">><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"><path fill="#FFFFFF" d="M195.2 195.2a64 64 0 0 1 90.496 0L512 421.504 738.304 195.2a64 64 0 0 1 90.496 90.496L602.496 512 828.8 738.304a64 64 0 0 1-90.496 90.496L512 602.496 285.696 828.8a64 64 0 0 1-90.496-90.496L421.504 512 195.2 285.696a64 64 0 0 1 0-90.496z"></path></g></svg>
+        
+            <div id="boardModalContent">
+
+                <div id="customTitle">
+                    <span>제목</span>
+                    <input type="text" placeholder="제목을 입력해주세요">
+                </div>
+
+                <div id="customContent">
+                    <span>내용</span>
+                    <textarea placeholder="본문을 입력해주세요"></textarea>
+                </div>
+
+                <div id="customButton">
+                    <button onclick="writeBoard()">작성</button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+
+    <script src="/asset/board.js"></script>
+</body>
+</html>
