@@ -49,7 +49,6 @@ async function createBoard() {
 
 // 상세 게시물 보기
 async function createDetailBoard(nid) {
-    if (!nid) return;
 
     const { product } = baseData;
     const detailData = product.find(b => b.id == nid);

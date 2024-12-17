@@ -17,6 +17,5 @@ document.querySelector("#LoginButton").addEventListener("click", async function(
         return;
     }
     
-    alert("게시판 이용 시 서로를 존중하며, 건전한 커뮤니티 문화를 만들어주세요.");
     window.location.href = "/board"
 })
